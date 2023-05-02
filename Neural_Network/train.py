@@ -5,6 +5,7 @@ from modules import PositionalEmbedding, TransformerEncoder, TransformerDecoder
 from utils import *
 import os
 import sys
+import argparse
 
 def get_model(sequence_length: int=100, 
               vocab_size: int=20000, 
@@ -36,12 +37,14 @@ def train(model: keras.Model,
           val_ds: tf.data.Dataset, 
           epochs: int=1,
           path: str = 'saved_model')-> keras.Model:
-
+    tf.config.list_physical_devices('GPU')
     model.summary()
     model.compile(
         "rmsprop", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
     )
     model.fit(train_ds, epochs=epochs, validation_data=val_ds)
+
+
 
     return model
 
@@ -52,12 +55,14 @@ def main(model: keras.Model,
          epochs: int=1,
          path: str = 'saved_model')-> None:
 
+
     model = train(model, train_ds, val_ds, epochs=epochs)
 
     if not os.path.exists(path):
         os.makedirs(path)
     
-    model.save(path+'/model.h5')
+    full_path= os.path.join(path, 'model.h5')
+    model.save(full_path)
 
     
 
@@ -71,6 +76,11 @@ if __name__ == "__main__":
     eng_vectorization, spa_vectorization = encode_eng_text(train_pairs)
     train_ds = make_dataset(train_pairs, eng_vectorization, spa_vectorization)
     val_ds = make_dataset(val_pairs, eng_vectorization, spa_vectorization)
-
     model = get_model()
-    train(model, train_ds, val_ds, epochs=1)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--epoch", type=int, default=30, help="epochs")
+    args = parser.parse_args()
+
+
+
+    main(model, train_ds, val_ds, args.epoch)
