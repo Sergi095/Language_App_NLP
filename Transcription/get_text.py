@@ -29,7 +29,7 @@ def recognize_speech_from_mic(recognizer: sr.Recognizer(), microphone: sr.Microp
     response = {
         "success": True,
         "error": None,
-        "transcription": None
+        "transcription": ' '
     }
 
 
