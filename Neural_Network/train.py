@@ -7,8 +7,8 @@ import os
 import sys
 import argparse
 
-def get_model(sequence_length: int=100, 
-              vocab_size: int=20000, 
+def get_model(sequence_length: int=20, 
+              vocab_size: int=15000, 
               embed_dim: int=256, 
               latent_dim: int=2048, 
               num_heads: int=8) -> keras.Model:
