@@ -42,7 +42,9 @@ def main(model_path: str = '../Neural_Network/saved_model/model.h5', t: int = 1)
 
     max_decoded_sentence_length = 20
     translation = decode_sequence(text_to_translate, max_decoded_sentence_length, model)
-    print(f'this is the translation: {translation}')
+    # print(f'this is the translation: {translation}')
+
+    return translation
 
 
 if __name__ == "__main__":
