@@ -41,10 +41,7 @@ def create_tokenizer(lines: list) -> Tokenizer:
 
 
 def get_max_length(lines: list) -> int:
-
-    lines = [line.split() for line in lines]
-    max_length = max(len(line) for line in lines)
-    return max_length
+    return max(len(line.split()) for line in lines)
 
 
 def encode_sequences(tokenizer: Tokenizer, length: int, lines: list) -> np.array:
@@ -70,5 +67,6 @@ def define_model(src_vocab: int, tar_vocab: int, src_timesteps: int, tar_timeste
     model.add(RepeatVector(tar_timesteps))
     model.add(LSTM(n_units, return_sequences=True))
     model.add(TimeDistributed(Dense(tar_vocab, activation='softmax')))
+    
     return model
 
