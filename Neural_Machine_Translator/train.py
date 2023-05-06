@@ -30,20 +30,8 @@ def train_model(raw_data_path: str = 'raw_data/spa.txt',
     print('spanish Vocabulary Size: %d' % spa_vocab_size)
     print('spanish Max Length: %d' % (spa_length))
 
-    # prepare training data
-   # X_train = encode_sequences(spa_tokenizer, spa_length, train[:, 1])
-    #y_train = encode_sequences(eng_tokenizer, eng_length, train[:, 0])
-   # y_tran = encode_output_sequences(y_train, eng_vocab_size)
-    # prepare validation data
-    #X_test = encode_sequences(spa_tokenizer, spa_length, test[:, 1])
-    #y_test = encode_sequences(eng_tokenizer, eng_length, test[:, 0])
-    #y_test = encode_output_sequences(y_test, eng_vocab_size)
-
-
     # define model
 
-    #model = define_model(spa_vocab_size, eng_vocab_size, spa_length, eng_length, 256)
-    #model.compile(optimizer='adam', loss='categorical_crossentropy')
     # summarize defined model
     if not os.path.exists('saved_model'):
         os.makedirs('saved_model')
@@ -52,11 +40,6 @@ def train_model(raw_data_path: str = 'raw_data/spa.txt',
     # You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
     #plot_model(model, to_file=os.path.join(path, 'model.png'), show_shapes=True)
     filename = os.path.join(path, 'model.h5')
-    #heckpoint = ModelCheckpoint(filename, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
-    #model.fit(X_train, y_train, epochs=30, batch_size=64, validation_data=(X_test, y_test), callbacks=[checkpoint], verbose=2)
-# prepare german tokenizer
-
-
     # prepare training data
     trainX = encode_sequences(spa_tokenizer, spa_length, train[:, 1])
     trainY = encode_sequences(eng_tokenizer, eng_length, train[:, 0])
