@@ -9,7 +9,7 @@ The model used in this app is a neural machine translation model that consists o
 ![Model Image](Neural_Machine_Translator/model.png)
 
 
-The data used in this application is from the Tatoeba Project, which can be downloaded from [datasets](http://tatoeba.org/files/downloads/sentences_detailed.csv)
+The data used in this application is from the Tatoeba Project, which can be downloaded from [datasets](http://www.manythings.org/anki/)
 
 ## Installation
 
