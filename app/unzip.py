@@ -1,9 +1,9 @@
 import platform
 import subprocess
-import zipfile
 import os
 
-import winreg
+if platform.system() == 'Windows':
+    import winreg
 
 def get_zip_path():
     try:
@@ -36,7 +36,18 @@ def unzip_models():
     # print(os.listdir("../Neural_Machine_Translator/saved_model_zip/"))
     # Unzip the file
     if platform.system() == 'Linux' or platform.system() == 'Darwin':
-        subprocess.call(['unzip', f'{zip_file_path}.zip', '-d', f'{target_directory}'])
+
+        # Combine parts of the zip file
+        subprocess.call(['zip', '-s-', f'{zip_file_path}.zip', '-O', f'{zip_file_path}-full.zip'])
+        # Unzip the combined zip file
+        subprocess.call(['unzip', f'{zip_file_path}-full.zip', '-d', f'{target_directory}'])
+
+        # Combine parts of the zip file
+        subprocess.call(['zip', '-s-', f'{zip_file_path_2}.zip', '-O', f'{zip_file_path_2}-full.zip'])
+        # Unzip the combined zip file
+        subprocess.call(['unzip', f'{zip_file_path_2}-full.zip', '-d', f'{target_directory}'])
+
+
     else:
         zip_program_path = get_zip_path()
         subprocess.call([zip_program_path, "x", "-ibck", f"{zip_file_path}.zip", "*.*", target_directory])
