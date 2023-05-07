@@ -7,7 +7,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.utils.vis_utils import plot_model
 from keras.models import load_model
 
-# TODO: train model eng to spa
+
 
 def train_model(raw_data_path: str = 'raw_data/spa.txt',
                       path: str = 'data') -> None:
@@ -39,35 +39,72 @@ def train_model(raw_data_path: str = 'raw_data/spa.txt',
     #print(model.summary())
     # You must install pydot (`pip install pydot`) and install graphviz (see instructions at https://graphviz.gitlab.io/download/) for plot_model to work.
     #plot_model(model, to_file=os.path.join(path, 'model.png'), show_shapes=True)
-    filename = os.path.join(path, 'model.h5')
-    # prepare training data
-    trainX = encode_sequences(spa_tokenizer, spa_length, train[:, 1])
-    trainY = encode_sequences(eng_tokenizer, eng_length, train[:, 0])
-    trainY = encode_output_sequences(trainY, eng_vocab_size)
-    # prepare validation data
-    testX = encode_sequences(spa_tokenizer, spa_length, test[:, 1])
-    testY = encode_sequences(eng_tokenizer, eng_length, test[:, 0])
-    testY = encode_output_sequences(testY, eng_vocab_size)
+    # training es-en
+    lang = 'en-es'
+    if lang == 'es-en':
+        print('train es-en')
+        filename = os.path.join('saved_model', 'model.h5')
+        # prepare training data
+        trainX = encode_sequences(spa_tokenizer, spa_length, train[:, 1])
+        trainY = encode_sequences(eng_tokenizer, eng_length, train[:, 0])
+        trainY = encode_output_sequences(trainY, eng_vocab_size)
+        # prepare validation data
+        testX = encode_sequences(spa_tokenizer, spa_length, test[:, 1])
+        testY = encode_sequences(eng_tokenizer, eng_length, test[:, 0])
+        testY = encode_output_sequences(testY, eng_vocab_size)
 
 
-    # define model
-    # model = define_model(ger_vocab_size, eng_vocab_size, ger_length, eng_length, 256)
-    model = define_model(spa_vocab_size, eng_vocab_size, spa_length, eng_length, 256*4)
-    model.compile(optimizer='adam', loss='categorical_crossentropy')
-    # summarize defined model
-    print(model.summary())
+        # define model
+        # model = define_model(ger_vocab_size, eng_vocab_size, ger_length, eng_length, 256)
+        model = define_model(spa_vocab_size, eng_vocab_size, spa_length, eng_length, 256*4)
+        model.compile(optimizer='adam', loss='categorical_crossentropy')
+        # summarize defined model
+        print(model.summary())
 
-    # fit model
-    checkpoint = ModelCheckpoint(filename, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
-    model.fit(trainX, trainY, epochs=100, batch_size=64, validation_data=(testX, testY), callbacks=[checkpoint], verbose=2)
-    # evaluate model
-    model = load_model(filename)
-    # test on training sequences
-    print('train')
-    evaluate_model(model, eng_tokenizer, trainX, train)
-    # test on test sequences
-    print('test')
-    evaluate_model(model, eng_tokenizer, testX, test)
+        # fit model
+        checkpoint = ModelCheckpoint(filename, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+        model.fit(trainX, trainY, epochs=30, batch_size=64, validation_data=(testX, testY), callbacks=[checkpoint], verbose=2)
+        # evaluate model
+        model = load_model(filename)
+        # test on training sequences
+        print('train')
+        evaluate_model(model, eng_tokenizer, trainX, train)
+        # test on test sequences
+        print('test')
+        evaluate_model(model, eng_tokenizer, testX, test)
+
+    # training en-es
+    else:
+        print('train en-es')
+        filename = os.path.join('saved_model_en_es', 'model_en_es.h5')
+        # prepare training data
+        trainY = encode_sequences(spa_tokenizer, spa_length, train[:, 1])
+        trainX = encode_sequences(eng_tokenizer, eng_length, train[:, 0])
+        trainY = encode_output_sequences(trainY, spa_vocab_size)
+        # prepare validation data
+        testY = encode_sequences(spa_tokenizer, spa_length, test[:, 1])
+        testX = encode_sequences(eng_tokenizer, eng_length, test[:, 0])
+        testY = encode_output_sequences(testY, spa_vocab_size)
+
+
+        # define model
+        # model = define_model(ger_vocab_size, eng_vocab_size, ger_length, eng_length, 256)
+        model = define_model(eng_vocab_size, spa_vocab_size, eng_length, spa_length, 256*4)
+        model.compile(optimizer='adam', loss='categorical_crossentropy')
+        # summarize defined model
+        print(model.summary())
+
+        # fit model
+        checkpoint = ModelCheckpoint(filename, monitor='val_loss', verbose=1, save_best_only=True, mode='min')
+        model.fit(trainX, trainY, epochs=30, batch_size=64, validation_data=(testX, testY), callbacks=[checkpoint], verbose=2)
+        # evaluate model
+        model = load_model(filename)
+        # test on training sequences
+        print('train')
+        evaluate_model(model, spa_tokenizer, trainX, train)
+        # test on test sequences
+        print('test')
+        evaluate_model(model, spa_tokenizer, testX, test)
 
 
 if __name__ == '__main__':
