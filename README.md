@@ -9,7 +9,7 @@ The model used in this app is a neural machine translation model that consists o
 ![Model Image](Neural_Machine_Translator/model.png)
 
 
-The data used in this application is from the Tatoeba Project, which can be downloaded from 
+The data used in this application is from the Tatoeba Project, which can be downloaded from [datasets](http://tatoeba.org/files/downloads/sentences_detailed.csv)
 
 ## Installation
 
@@ -19,7 +19,7 @@ To install the app, you should first clone the repository to your local machine.
 conda env create -f environment.yml
 ```
 
-This will create a new environment called machine_translation. To activate the environment, run: [datasets](http://tatoeba.org/files/downloads/sentences_detailed.csv)
+This will create a new environment called machine_translation. To activate the environment, run: 
 
 ```bash
 conda activate machine_translation
