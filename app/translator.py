@@ -6,8 +6,6 @@ from flask import Flask, render_template, request
 import json
 from unzip import unzip_models
 
-sys.path.append('../Neural_Network')
-from helpers import custom_standardization
 
 app = Flask(__name__, 
             template_folder='front_end',
@@ -24,7 +22,9 @@ def home():
 @app.route('/translate', methods=['POST'])
 def translate():
 
-    unzip_models()
+    if not os.path.exists(os.path.join('../Neural_Machine_Translator/saved_model/', 'model.h5')) and \
+        not os.path.exists(os.path.join('../Neural_Machine_Translator/saved_model_en_es/', 'model_en_es.h5')):
+        unzip_models()
 
     if 'record' in request.form:
         # get input sentence from microphone
@@ -36,12 +36,15 @@ def translate():
     input_language = request.form['input_language_selector']
     output_language = request.form['output_language_selector']
     
+    print(f'input lang: {input_language}')
+    print(f'ouput lang: {output_language}')
+
     if input_language == 'English' and output_language == 'Spanish':
         # translate english to spanish
-        translation = do_translation(input_sentence, input_language='English')
+        translation = do_translation([input_sentence], input_language='English')
     elif input_language == 'Spanish' and output_language == 'English':
         # translate spanish to english
-        translation = do_translation2(input_sentence, input_language='Spanish')
+        translation = do_translation([input_sentence], input_language='Spanish')
     else:
         # unsupported language pair
         translation = 'Unsupported language pair'

@@ -2,33 +2,45 @@
 <html>
 
 <head>
-    <title>My_personal_translator</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-
+    <title>Assignment 3: Build your own language app</title>
     <h1 style="text-align: center;">Translator Assignment 3</h1>
-<div class="translator-container">
-  <div class="input-output-container">
-    <div class="input-container">
-      <select id="input-language-selector" name="input_language_selector">
-        <option value="English">English</option>
-        <option value="Spanish">Spanish</option>
-      </select>
-      <textarea id="input_text" placeholder="Type text to translate"></textarea>
-    </div>
-    <div class="output-container">
-      <select id="output-language-selector" name="output_language_selector">
-        <option value="English">English</option>
-        <option value="Spanish">Spanish</option>
-      </select>
-      <textarea id="output_text" placeholder="Translated text"></textarea>
-    </div>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <!-- <img id="logo" src="{{ url_for('static', filename='VU_logo.png') }}" alt="VU Logo"> -->
+    <img src="{{ url_for('static', filename='VU_logo.png') }}" alt="VU logo" style="display:block;margin:auto;width:10%;">
+    <h2 style="text-align: center;">Vrije Universiteit NLP Msc AI course Edition 2023</h2>
+</head>
+<body>
+  <!-- <div class="header-container">
+      <img id="logo" src="{{ url_for('static', filename='VU_logo.png') }}" alt="VU Logo">
+      <div class="header-text">
+          <h1>Translator Assignment 3</h1>
+          <h2>Vrije Universiteit NLP Msc AI course Edition 2023</h2>
+      </div>
+  </div> -->
+  <div class="translator-container">
+      <div class="input-output-container">
+          <div class="input-container">
+              <select id="input-language-selector" name="input_language_selector">
+                  <option value="English">English</option>
+                  <option value="Spanish">Spanish</option>
+              </select>
+              <textarea id="input_text" placeholder="Type text to translate"></textarea>
+          </div>
+          <div class="output-container">
+              <select id="output-language-selector" name="output_language_selector">
+                  <option value="English">English</option>
+                  <option value="Spanish">Spanish</option>
+              </select>
+              <textarea id="output_text" placeholder="Translated text"></textarea>
+          </div>
+      </div>
+      <div class="buttons-container">
+          <button id="record-button">Record</button>
+          <button id="translate-button">Translate</button>
+      </div>
   </div>
-  <div class="buttons-container">
-    <button id="record-button">Record</button>
-    <button id="translate-button">Translate</button>
-  </div>
-</div>
-<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
-    </body>  
+  <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+
 </html>
