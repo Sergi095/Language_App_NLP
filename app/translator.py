@@ -4,6 +4,7 @@ sys.path.append('../Translation')
 from run_translation import *
 from flask import Flask, render_template, request
 import json
+from unzip import unzip_models
 
 sys.path.append('../Neural_Network')
 from helpers import custom_standardization
@@ -22,6 +23,9 @@ def home():
 
 @app.route('/translate', methods=['POST'])
 def translate():
+
+    unzip_models()
+
     if 'record' in request.form:
         # get input sentence from microphone
         input_sentence = get_text_mic() 
