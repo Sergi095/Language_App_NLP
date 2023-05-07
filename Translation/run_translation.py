@@ -8,8 +8,6 @@ from keras.models import load_model
 import pickle
 from typing import List
 from utils import get_text_from_audio, load_model, decode_sequence
-sys.path.append('../Neural_Network')
-from helpers import custom_standardization
 sys.path.append('../Neural_Machine_Translator')
 from get_model import *
 from preprocess import *
@@ -50,17 +48,7 @@ def get_text_mic(t: int = 1) -> str:
     return text_to_translate
 
 
-def do_translation(input_sentence: str,
-                   model_path: str = '../Neural_Network/saved_model/model.h5') -> str:
-
-    model = load_model(model_path)
-
-    max_decoded_sentence_length = 20
-    translation = decode_sequence(input_sentence, max_decoded_sentence_length, model)
-
-    return translation
-
-def do_translation2(input_sentence: List[str],
+def do_translation(input_sentence: List[str],
                     input_language: str,
                     raw_data_path: str = '../Neural_Machine_Translator/raw_data/spa.txt',
                     path: str = '../Neural_Machine_Translator/data/') -> str:
@@ -86,6 +74,8 @@ def do_translation2(input_sentence: List[str],
         return translation
     # english to spanish
     elif input_language == 'English':
+        model_path = '../Neural_Machine_Translator/saved_model_en_es/model_en_es.h5'
+        model = load_model(model_path)
         input_sentence_encoded = encode_sequences(eng_tokenizer, eng_length, input_sentence)   
         translation = predict_sequence(model, spa_tokenizer, input_sentence_encoded)
         return translation
@@ -98,6 +88,7 @@ if __name__ == "__main__":
     # main()
 
     print('running')
-
-    translation = do_translation2(['ella lo mordio'])
+    input_sentence = ['she bit him']
+    input_language = 'English'
+    translation = do_translation2(input_sentence, input_language)
     print(f'this is the translation: {translation}')

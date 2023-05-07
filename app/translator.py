@@ -19,36 +19,7 @@ def home():
     # return render_template(os.path.abspath("front_end/index.html"))
     return render_template("index.html")    
 
-# @app.route('/translate', methods=['POST'])
-# def translate():
-#     input_sentence = ''
-#     if 'record' in request.form:
-#         input_sentence = get_text_mic()        
-#         input_language = request.form['input_language_selector']
-#         output_language = request.form['output_language_selector']
-#         translation = do_translation(input_sentence)
-#         # set the transcribed text in the input text box
-#         response = {
-#             'input_text': input_sentence,
-#             'recorded-text': input_sentence,
-#             'output_text': translation,
-#             'input_language_selector': input_language,
-#             'output_language_selector': output_language,
-#             'translation': translation
-#         }
-#     else:
-#         input_sentence = request.form['input_text']
-#         input_language = request.form['input_language_selector']
-#         output_language = request.form['output_language_selector']
-#         translation = do_translation(input_sentence)
-#         response = {
-#             'input_text': input_sentence,
-#             'output_text': translation,
-#             'input_language_selector': input_language,
-#             'output_language_selector': output_language,
-#             'translation': translation
-#         }
-#     return json.dumps(response)
+
 @app.route('/translate', methods=['POST'])
 def translate():
     if 'record' in request.form:
@@ -61,12 +32,12 @@ def translate():
     input_language = request.form['input_language_selector']
     output_language = request.form['output_language_selector']
     
-    if input_language == 'english' and output_language == 'spanish':
+    if input_language == 'English' and output_language == 'Spanish':
         # translate english to spanish
-        translation = do_translation2(input_sentence, input_language='english')
-    elif input_language == 'spanish' and output_language == 'english':
+        translation = do_translation(input_sentence, input_language='English')
+    elif input_language == 'Spanish' and output_language == 'English':
         # translate spanish to english
-        translation = do_translation2(input_sentence, input_language='spanish')
+        translation = do_translation2(input_sentence, input_language='Spanish')
     else:
         # unsupported language pair
         translation = 'Unsupported language pair'
