@@ -1,4 +1,4 @@
-from utils import get_text_from_audio, load_model
+from utils import get_text_from_audio
 import speech_recognition as sr
 import sys
 import os
@@ -7,12 +7,11 @@ import tensorflow as tf
 from keras.models import load_model
 import pickle
 from typing import List
-from utils import get_text_from_audio, load_model, decode_sequence
 sys.path.append('../Neural_Machine_Translator')
 from get_model import *
 from preprocess import *
 
-
+from keras.models import load_model
 
 
 def get_text_mic(t: int = 1) -> str:
@@ -71,6 +70,7 @@ def do_translation(input_sentence: List[str],
         model = load_model(model_path)
         input_sentence_encoded = encode_sequences(spa_tokenizer, spa_length, input_sentence)   
         translation = predict_sequence(model, eng_tokenizer, input_sentence_encoded)
+        print(f'this is the translation in the function: {translation}')
         return translation
     # english to spanish
     elif input_language == 'English':
@@ -78,6 +78,7 @@ def do_translation(input_sentence: List[str],
         model = load_model(model_path)
         input_sentence_encoded = encode_sequences(eng_tokenizer, eng_length, input_sentence)   
         translation = predict_sequence(model, spa_tokenizer, input_sentence_encoded)
+        print(f'this is the translation in the function: {translation}')
         return translation
     else:
         raise ValueError('input_language must be either Spanish or English')
