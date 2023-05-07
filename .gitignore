@@ -155,6 +155,8 @@ cython_debug/
 # myself
 requirements.txt
 saved_model/
+saved_model_en_es/
+data/
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
