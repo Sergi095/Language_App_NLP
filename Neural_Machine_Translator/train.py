@@ -7,7 +7,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.utils.vis_utils import plot_model
 from keras.models import load_model
 
-
+# TODO: train model eng to spa
 
 def train_model(raw_data_path: str = 'raw_data/spa.txt',
                       path: str = 'data') -> None:

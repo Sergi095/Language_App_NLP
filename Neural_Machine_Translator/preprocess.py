@@ -46,15 +46,22 @@ def build_data_set(raw_data_path: str = 'raw_data/spa.txt',
     cleaned_sentences = clean_sentences(pairs)
     if not os.path.exists(path):
         os.makedirs(path)
-    save_cleaned_data(cleaned_sentences, os.path.join(path, 'english-spanish.pkl'))
+    
+    # check if cleaned data already exists
+    if not os.path.exists(os.path.join(path, 'english-spanish.pkl')):
+        save_cleaned_data(cleaned_sentences, os.path.join(path, 'english-spanish.pkl'))
 
     n_sentences = 10000
     dataset = cleaned_sentences[:n_sentences, :]
     np.random.shuffle(dataset)
     train, test = dataset[:9000], dataset[9000:]
-    save_cleaned_data(dataset, os.path.join(path, 'english-spanish-both.pkl'))
-    save_cleaned_data(train, os.path.join(path, 'english-spanish-train.pkl'))
-    save_cleaned_data(test, os.path.join(path, 'english-spanish-test.pkl'))
+
+    if not os.path.exists(os.path.join(path, 'english-spanish-both.pkl')) and \
+        not os.path.exists(os.path.join(path, 'english-spanish-train.pkl')) and \
+        not os.path.exists(os.path.join(path, 'english-spanish-test.pkl')):
+        save_cleaned_data(dataset, os.path.join(path, 'english-spanish-both.pkl'))
+        save_cleaned_data(train, os.path.join(path, 'english-spanish-train.pkl'))
+        save_cleaned_data(test, os.path.join(path, 'english-spanish-test.pkl'))
 
     return dataset, train, test
 
